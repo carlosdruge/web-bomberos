@@ -1,0 +1,41 @@
+/* css/style.css */
+
+/* 1. Comportamiento de desplazamiento suave para los enlaces del menú */
+html {
+    scroll-behavior: smooth;
+}
+
+/* 2. Personalización de la barra de desplazamiento (Scrollbar) institucional */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f8fafc; /* slate-50 */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #dc2626; /* red-600 */
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #991b1b; /* red-800 */
+}
+
+/* 3. Clase auxiliar para ocultar la barra de desplazamiento en elementos internos */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none; /* IE y Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+/* 4. Prevenir selección de texto en botones y elementos de la interfaz */
+.no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

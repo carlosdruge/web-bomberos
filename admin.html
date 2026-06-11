@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrativo - Bomberos Cubarral</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans flex flex-col justify-between">
+
+    <div id="seccion-login" class="flex-grow flex items-center justify-center px-4">
+        <div class="bg-slate-800 p-8 rounded-2xl shadow-2xl max-w-md w-full border border-slate-700 space-y-6">
+            <div class="text-center space-y-2">
+                <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center text-2xl mx-auto shadow-lg">
+                    <i class="fa-solid fa-lock text-white"></i>
+                </div>
+                <h1 class="text-xl font-bold tracking-tight text-white">Autenticación Institucional</h1>
+                <p class="text-xs text-slate-400">Acceso exclusivo para personal autorizado del Cuerpo de Bomberos.</p>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Correo Electrónico</label>
+                    <input type="email" id="login-correo" placeholder="ejemplo@bomberos.com" 
+                           class="w-full p-3 bg-slate-900 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-red-500 font-medium">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Contraseña Secreta</label>
+                    <input type="password" id="login-contrasena" placeholder="••••••••" 
+                           class="w-full p-3 bg-slate-900 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-red-500 font-medium">
+                </div>
+                <button id="btnLogin" class="w-full bg-red-600 text-white font-bold py-3 rounded-lg hover:bg-red-700 transition flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span>Ingresar al Sistema</span>
+                </button>
+            </div>
+            <div class="text-center">
+                <a href="index.html" class="text-xs text-slate-500 hover:text-slate-300 transition"><i class="fa-solid fa-arrow-left mr-1"></i> Volver a la página pública</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="seccion-panel" class="hidden flex-grow flex flex-col">
+        <header class="bg-slate-800 border-b border-slate-700 px-6 py-4 flex justify-between items-center shadow-md">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center font-bold text-sm text-white">A</div>
+                <h2 class="font-bold text-white tracking-wide">Panel Administrativo Central</h2>
+            </div>
+            <button id="btn-logout" class="bg-slate-700 hover:bg-red-600 text-white text-xs font-bold px-3 py-2 rounded-lg transition flex items-center space-x-2">
+                <i class="fa-solid fa-power-off"></i>
+                <span class="hidden sm:inline">Cerrar Sesión</span>
+            </button>
+        </header>
+
+        <main class="flex-grow max-w-6xl w-full mx-auto p-4 md:p-8 grid md:grid-cols-2 gap-8">
+            
+            <section class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4 shadow-xl">
+                <div class="border-b border-slate-700 pb-2">
+                    <h3 class="text-lg font-bold text-white flex items-center"><i class="fa-solid fa-file-shield text-green-500 mr-2"></i>Registrar Certificado</h3>
+                    <p class="text-xs text-slate-400 mt-1">Sube los datos básicos del establecimiento para habilitar su verificación pública inmediata.</p>
+                </div>
+                <div class="space-y-3 text-sm">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">NIT o Cédula (Sin puntos ni guiones)</label>
+                        <input type="text" id="cert-nit" placeholder="Ej. 901234567" class="w-full p-2 bg-slate-900 border border-slate-700 rounded text-white focus:outline-none focus:ring-1 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Nombre Comercial del Establecimiento</label>
+                        <input type="text" id="cert-nombre" placeholder="Ej. Supermercado El Bosque" class="w-full p-2 bg-slate-900 border border-slate-700 rounded text-white focus:outline-none focus:ring-1 focus:ring-green-500">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 mb-1">Fecha Expedición</label>
+                            <input type="date" id="cert-expedicion" class="w-full p-2 bg-slate-900 border border-slate-700 rounded text-white focus:outline-none focus:ring-1 focus:ring-green-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 mb-1">Fecha Vencimiento</label>
+                            <input type="date" id="cert-vencimiento" class="w-full p-2 bg-slate-900 border border-slate-700 rounded text-white focus:outline-none focus:ring-1 focus:ring-green-500">
+                        </div>
+                    </div>
+                    <button id="btn-guardar-cert" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded transition shadow-md">
+                        <i class="fa-solid fa-cloud-arrow-up mr-1"></i> Guardar y Generar Enlace QR
+                    </button>
+                    <div id="resultado-qr-link" class="hidden bg-slate-900 border border-green-800 p-3 rounded text-xs space-y-2 text-green-400">
+                        </div>
+                </div>
+            </section>
+
+            <section class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4 shadow-xl">
+                <div class="border-b border-slate-700 pb-2">
+                    <h3 class="text-lg font-bold text-white flex items-center"><i class="fa-solid fa-bullhorn text-red-500 mr-2"></i>Publicar Comunicado Oficial</h3>
+                    <p class="text-xs text-slate-400 mt-1">Publica noticias institucionales informativas dirigidas a toda la población de Cubarral.</p>
+                </div>
+                <div class="space-y-3 text-sm">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Título de la Noticia</label>
+                        <input type="text" id="not-titulo" placeholder="Ej. Campaña de prevención de incendios forestales" class="w-full p-2 bg-slate-900 border border-slate-700 rounded text-white focus:outline-none focus:ring-1 focus:ring-red-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">URL de la Imagen (Opcional)</label>
+                        <input type="url" id="not-imagen" placeholder="Ej. https://imagenes.com/foto.jpg" class="w-full p-2 bg-slate-900 border border-slate-700 rounded text-white focus:outline-none focus:ring-1 focus:ring-red-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">Contenido / Cuerpo del Comunicado</label>
+                        <textarea id="not-contenido" rows="4" placeholder="Escriba aquí los detalles de la noticia..." class="w-full p-2 bg-slate-900 border border-slate-700 rounded text-white focus:outline-none focus:ring-1 focus:ring-red-500 resize-none"></textarea>
+                    </div>
+                    <button id="btn-guardar-noticia" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded transition shadow-md">
+                        <i class="fa-solid fa-paper-plane mr-1"></i> Publicar Comunicado
+                    </button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <footer class="bg-slate-950 text-slate-600 text-center py-4 text-xs border-t border-slate-800">
+        Entorno Seguro de Administración Externa &copy; 2026.
+    </footer>
+
+    <script type="module" src="js/admin.js"></script>
+</body>
+</html>
