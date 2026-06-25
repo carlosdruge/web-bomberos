@@ -30,13 +30,18 @@ const certNombre = document.getElementById("cert-nombre");
 const certExpedicion = document.getElementById("cert-expedicion");
 const certvencimiento = document.getElementById("cert-vencimiento");
 const btnGuardarCert = document.getElementById("btn-guardar-cert");
-const resultadoQrLink = document.getElementById("resultado-qr-link");
+
+// NUEVOS Elementos para el QR
+const btnGenerarQr = document.getElementById("btn-generar-qr");
+const contenedorQrVisual = document.getElementById("contenedor-qr-visual");
+const codigoQr = document.getElementById("codigo-qr");
+const resultadoQrLink = document.getElementById("resultado-qr-link"); // Se mantiene por si acaso
 
 // Elementos de Noticias
 const notTitulo = document.getElementById("not-titulo");
 const notImagen = document.getElementById("not-imagen");
 const notContenido = document.getElementById("not-contenido");
-const notEmbed = document.getElementById("admin-noticia-embed"); // Referencia al nuevo campo iframe
+const notEmbed = document.getElementById("admin-noticia-embed"); 
 const btnGuardarNoticia = document.getElementById("btn-guardar-noticia");
 
 
@@ -50,7 +55,7 @@ onAuthStateChanged(auth, (user) => {
     } else {
         seccionLogin.classList.remove("hidden");
         seccionPanel.classList.add("hidden");
-        resultadoQrLink.classList.add("hidden");
+        if(contenedorQrVisual) contenedorQrVisual.classList.add("hidden");
     }
 });
 
@@ -91,34 +96,42 @@ if(btnLogout) {
 
 
 // ==========================================
-// OPERACIÓN 1: GESTIÓN DE CERTIFICADOS (PASO A PASO)
+// OPERACIÓN 1: GESTIÓN DE CERTIFICADOS Y QR
 // ==========================================
 
-// ESCUCHADOR DE ENTRADA EN EL NIT: Genera el link automáticamente
-certNit.addEventListener("input", () => {
-    const nit = certNit.value.trim();
-    
-    if (nit.length > 2) {
+// PASO 1: CREAR EL CÓDIGO QR VISUAL
+if(btnGenerarQr) {
+    btnGenerarQr.addEventListener("click", () => {
+        const nit = certNit.value.trim();
+        
+        if (!nit) {
+            alert("⚠️ Primero debes escribir el NIT para poder generar el código QR.");
+            return;
+        }
+
+        // 1. Limpiamos cualquier QR que se haya generado antes
+        codigoQr.innerHTML = "";
+        
+        // 2. Construimos la URL que leerá el celular (apuntando a tu validador)
         const enlaceVerificacion = `${window.location.origin}/verificar.html?nit=${nit}`;
         
-        resultadoQrLink.innerHTML = `
-            <p class="font-bold text-amber-400 mb-1"><i class="fa-solid fa-qrcode mr-1"></i> Enlace generado para el código QR:</p>
-            <input type="text" id="url-copiar" readonly value="${enlaceVerificacion}" class="w-full p-2 bg-slate-950 rounded border border-amber-900 text-amber-300 font-mono text-xs cursor-pointer" title="Haz clic para copiar">
-            <p class="text-[10px] text-slate-400 mt-1">⚠️ <strong>Paso 1:</strong> Copia este enlace para crear tu QR físico. Al terminar tu documento, presiona el botón verde de abajo para registrarlo en el sistema.</p>
-        `;
-        resultadoQrLink.classList.remove("hidden");
-
-        document.getElementById("url-copiar").addEventListener("click", function() {
-            this.select();
-            document.execCommand("copy");
-            alert("¡Enlace copiado al portapapeles! Ya puedes generar tu código QR.");
+        // 3. Generamos la imagen del QR usando la librería
+        new QRCode(codigoQr, {
+            text: enlaceVerificacion,
+            width: 150,
+            height: 150,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
         });
-    } else {
-        resultadoQrLink.classList.add("hidden");
-    }
-});
 
-// BOTÓN FINAL: Guardar los datos en Firebase
+        // 4. Mostramos el cuadro en pantalla para que lo puedan copiar
+        contenedorQrVisual.classList.remove("hidden");
+        contenedorQrVisual.classList.add("flex");
+    });
+}
+
+// PASO 2: GUARDAR LOS DATOS EN FIREBASE
 btnGuardarCert.addEventListener("click", async () => {
     const nit = certNit.value.trim();
     const nombre = certNombre.value.trim();
@@ -130,6 +143,11 @@ btnGuardarCert.addEventListener("click", async () => {
         return;
     }
 
+    // Cambiamos el texto del botón temporalmente
+    const textoOriginal = btnGuardarCert.innerHTML;
+    btnGuardarCert.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Guardando...';
+    btnGuardarCert.disabled = true;
+
     try {
         await setDoc(doc(db, "certificados", nit), {
             nombre: nombre,
@@ -137,17 +155,26 @@ btnGuardarCert.addEventListener("click", async () => {
             vencimiento: vencimiento
         });
 
-        alert("¡Registro Exitoso! El certificado ha sido activado en la base de datos segura.");
+        alert("¡Registro Exitoso! El certificado ha sido activado en la base de datos.");
         
+        // Limpiamos todo el formulario para el siguiente registro
         certNit.value = "";
         certNombre.value = "";
         certExpedicion.value = "";
         certvencimiento.value = "";
-        resultadoQrLink.classList.add("hidden");
+        
+        // Ocultamos el QR
+        contenedorQrVisual.classList.add("hidden");
+        contenedorQrVisual.classList.remove("flex");
+        codigoQr.innerHTML = "";
 
     } catch (error) {
         console.error("Error al guardar certificado:", error);
         alert("No se pudo guardar el certificado. Verifique sus permisos de administrador.");
+    } finally {
+        // Restauramos el botón
+        btnGuardarCert.innerHTML = textoOriginal;
+        btnGuardarCert.disabled = false;
     }
 });
 
@@ -159,7 +186,7 @@ btnGuardarNoticia.addEventListener("click", async () => {
     const titulo = notTitulo.value.trim();
     const imagen = notImagen.value.trim();
     const contenido = notContenido.value.trim();
-    const embed = notEmbed.value.trim(); // Captura el código iframe
+    const embed = notEmbed.value.trim(); 
 
     if(!titulo || !contenido) {
         alert("El título y el contenido son obligatorios para publicar un comunicado.");
@@ -174,7 +201,7 @@ btnGuardarNoticia.addEventListener("click", async () => {
             titulo: titulo,
             imagen: imagen || null,
             contenido: contenido,
-            embed: embed || null, // Guarda el código en Firebase
+            embed: embed || null, 
             fecha: fechaFormateada
         });
 
@@ -183,7 +210,7 @@ btnGuardarNoticia.addEventListener("click", async () => {
         notTitulo.value = "";
         notImagen.value = "";
         notContenido.value = "";
-        notEmbed.value = ""; // Limpia el campo después de publicar
+        notEmbed.value = ""; 
 
     } catch (error) {
         console.error("Error al publicar la noticia:", error);
