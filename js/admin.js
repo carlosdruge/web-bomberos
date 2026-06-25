@@ -21,7 +21,7 @@ const seccionPanel = document.getElementById("seccion-panel");
 // Elementos de Login
 const loginCorreo = document.getElementById("login-correo");
 const loginContrasena = document.getElementById("login-contrasena");
-const btnLogin = document.getElementById("btnLogin"); // Se unificó el ID para evitar conflictos
+const btnLogin = document.getElementById("btnLogin");
 const btnLogout = document.getElementById("btn-logout");
 
 // Elementos de Certificados
@@ -36,6 +36,7 @@ const resultadoQrLink = document.getElementById("resultado-qr-link");
 const notTitulo = document.getElementById("not-titulo");
 const notImagen = document.getElementById("not-imagen");
 const notContenido = document.getElementById("not-contenido");
+const notEmbed = document.getElementById("admin-noticia-embed"); // Referencia al nuevo campo iframe
 const btnGuardarNoticia = document.getElementById("btn-guardar-noticia");
 
 
@@ -93,12 +94,11 @@ if(btnLogout) {
 // OPERACIÓN 1: GESTIÓN DE CERTIFICADOS (PASO A PASO)
 // ==========================================
 
-// ESCUCHADOR DE ENTRADA EN EL NIT: Genera el link automáticamente mientras escribes
+// ESCUCHADOR DE ENTRADA EN EL NIT: Genera el link automáticamente
 certNit.addEventListener("input", () => {
     const nit = certNit.value.trim();
     
     if (nit.length > 2) {
-        // Calculamos la URL en tiempo real basándonos en el NIT actual
         const enlaceVerificacion = `${window.location.origin}/verificar.html?nit=${nit}`;
         
         resultadoQrLink.innerHTML = `
@@ -108,7 +108,6 @@ certNit.addEventListener("input", () => {
         `;
         resultadoQrLink.classList.remove("hidden");
 
-        // Añadir función de clic para copiar automáticamente la URL generada al portapapeles
         document.getElementById("url-copiar").addEventListener("click", function() {
             this.select();
             document.execCommand("copy");
@@ -119,7 +118,7 @@ certNit.addEventListener("input", () => {
     }
 });
 
-// BOTÓN FINAL: Guardar los datos en la base de datos de Firebase
+// BOTÓN FINAL: Guardar los datos en Firebase
 btnGuardarCert.addEventListener("click", async () => {
     const nit = certNit.value.trim();
     const nombre = certNombre.value.trim();
@@ -132,7 +131,6 @@ btnGuardarCert.addEventListener("click", async () => {
     }
 
     try {
-        // Subimos la información de manera oficial a Firestore
         await setDoc(doc(db, "certificados", nit), {
             nombre: nombre,
             expedicion: expedicion,
@@ -141,7 +139,6 @@ btnGuardarCert.addEventListener("click", async () => {
 
         alert("¡Registro Exitoso! El certificado ha sido activado en la base de datos segura.");
         
-        // Limpiamos los campos para el próximo registro
         certNit.value = "";
         certNombre.value = "";
         certExpedicion.value = "";
@@ -162,6 +159,7 @@ btnGuardarNoticia.addEventListener("click", async () => {
     const titulo = notTitulo.value.trim();
     const imagen = notImagen.value.trim();
     const contenido = notContenido.value.trim();
+    const embed = notEmbed.value.trim(); // Captura el código iframe
 
     if(!titulo || !contenido) {
         alert("El título y el contenido son obligatorios para publicar un comunicado.");
@@ -176,6 +174,7 @@ btnGuardarNoticia.addEventListener("click", async () => {
             titulo: titulo,
             imagen: imagen || null,
             contenido: contenido,
+            embed: embed || null, // Guarda el código en Firebase
             fecha: fechaFormateada
         });
 
@@ -184,6 +183,7 @@ btnGuardarNoticia.addEventListener("click", async () => {
         notTitulo.value = "";
         notImagen.value = "";
         notContenido.value = "";
+        notEmbed.value = ""; // Limpia el campo después de publicar
 
     } catch (error) {
         console.error("Error al publicar la noticia:", error);

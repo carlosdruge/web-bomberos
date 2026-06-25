@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,63 +14,94 @@
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen relative">
 
-    <!-- BARRA DE NAVEGACIÓN -->
-    <nav class="bg-white text-slate-900 sticky top-0 z-40 shadow-sm border-b border-slate-200 border-t-4 border-t-red-600">
+    <!-- PANTALLA DE CARGA (SPLASH SCREEN) -->
+    <div id="splash-screen" class="fixed inset-0 bg-slate-950 z-[100] flex flex-col items-center justify-center transition-opacity duration-1000 opacity-100 text-white pointer-events-none">
+        <div class="text-center space-y-5 px-4">
+            <div class="relative w-28 h-28 mx-auto flex items-center justify-center bg-white/5 rounded-full p-4 border border-white/10 shadow-2xl">
+                <img src="img/logobomberos.png" alt="Cargando..." class="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]">
+            </div>
+            <div class="space-y-1">
+                <h2 class="text-lg font-black tracking-widest text-red-500 uppercase">Bomberos Voluntarios</h2>
+                <p class="text-sm font-medium text-slate-300 tracking-wider">Cubarral, Meta</p>
+            </div>
+            <div class="w-32 h-1 bg-slate-800 rounded-full mx-auto overflow-hidden relative">
+                <div class="w-1/2 h-full bg-red-600 rounded-full absolute left-0 top-0 animate-[pulse_1s_infinite]"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BARRA DE NAVEGACIÓN (Efecto Cristal oscuro para conectar con el Hero) -->
+    <nav class="fixed top-0 w-full z-50 transition-all duration-300 bg-slate-900/90 backdrop-blur-md border-b border-white/10 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-20">
             <div class="flex items-center space-x-3">
                 <img src="img/logobomberos.png" alt="Escudo Bomberos Cubarral" class="h-12 w-auto drop-shadow-md">
                 <div class="hidden sm:block">
-                    <span class="font-black text-lg block tracking-tight leading-none text-red-700">BOMBEROS</span>
-                    <span class="text-xs text-slate-500 font-medium tracking-wide">Cubarral - Meta</span>
+                    <span class="font-black text-lg block tracking-tight leading-none text-white">BOMBEROS</span>
+                    <span class="text-xs text-slate-400 font-medium tracking-wide">Cubarral - Meta</span>
                 </div>
             </div>
             
-            <div class="hidden md:flex space-x-2 text-sm font-bold text-slate-600">
-                <a href="#inicio" class="px-4 py-2 rounded-lg hover:bg-red-50 hover:text-red-700 transition-all">Inicio</a>
-                <a href="#noticias" class="px-4 py-2 rounded-lg hover:bg-red-50 hover:text-red-700 transition-all">Noticias</a>
-                <a href="#nosotros" class="px-4 py-2 rounded-lg hover:bg-red-50 hover:text-red-700 transition-all">Nosotros</a>
-                <a href="#certificados" class="px-4 py-2 rounded-lg hover:bg-red-50 hover:text-red-700 transition-all">Certificados</a>
+            <div class="hidden md:flex space-x-2 text-sm font-bold text-slate-300">
+                <a href="#inicio" class="px-4 py-2 rounded-lg hover:bg-white/10 hover:text-white transition-all">Inicio</a>
+                <a href="#noticias" class="px-4 py-2 rounded-lg hover:bg-white/10 hover:text-white transition-all">Noticias</a>
+                <a href="#nosotros" class="px-4 py-2 rounded-lg hover:bg-white/10 hover:text-white transition-all">Nosotros</a>
+                <a href="directorio/" class="px-4 py-2 rounded-lg hover:bg-white/10 hover:text-white transition-all text-amber-400">Directorio</a>
+                <a href="#certificados" class="px-4 py-2 rounded-lg hover:bg-white/10 hover:text-white transition-all">Certificados</a>
             </div>
 
-            <div>
-                <a href="admin.html" class="text-xs font-bold text-slate-400 hover:text-slate-800 transition bg-slate-100 px-3 py-2 rounded-lg">
+            <div class="flex items-center space-x-4">
+                <a href="admin.html" class="text-xs font-bold text-slate-300 hover:text-white transition bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg border border-white/10">
                     <i class="fa-solid fa-lock mr-1"></i>Portal Admin
                 </a>
+                <!-- BOTÓN HAMBURGUESA (Solo visible en móviles) -->
+                <button id="btn-menu-movil" class="md:hidden text-slate-300 hover:text-white text-2xl focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- MENÚ DESPLEGABLE MÓVIL -->
+        <div id="menu-movil" class="hidden md:hidden bg-slate-900 border-t border-slate-800 absolute w-full left-0 top-20 shadow-xl transition-all">
+            <div class="flex flex-col px-4 pt-2 pb-6 space-y-3">
+                <a href="#inicio" class="text-slate-300 font-bold hover:text-white hover:bg-slate-800 p-3 rounded-lg">Inicio</a>
+                <a href="#noticias" class="text-slate-300 font-bold hover:text-white hover:bg-slate-800 p-3 rounded-lg">Noticias</a>
+                <a href="#nosotros" class="text-slate-300 font-bold hover:text-white hover:bg-slate-800 p-3 rounded-lg">Nosotros</a>
+                <a href="directorio/" class="text-amber-400 font-bold hover:text-amber-300 hover:bg-slate-800 p-3 rounded-lg">Directorio</a>
+                <a href="#certificados" class="text-slate-300 font-bold hover:text-white hover:bg-slate-800 p-3 rounded-lg">Certificados</a>
             </div>
         </div>
     </nav>
 
-    <!-- BANNER PRINCIPAL (HERO SECTION) -->
-    <header id="inicio" class="relative text-white py-24 px-4 text-center shadow-lg bg-slate-900" 
-            style="background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(153, 27, 27, 0.85)), url('img/herobomberos.png'); background-size: cover; background-position: center; background-attachment: fixed;">
-        <div class="max-w-4xl mx-auto space-y-6 relative z-10">
-            <span class="bg-red-600 text-xs uppercase font-extrabold px-4 py-1.5 rounded-full tracking-widest shadow-md">
+    <!-- BANNER PRINCIPAL (HERO SECTION)-->
+    <header id="inicio" class="relative text-white pt-32 pb-24 px-4 text-center shadow-lg bg-slate-900" 
+            style="background-image: linear-gradient(rgba(15, 23, 42, 0.92), rgba(153, 27, 27, 0.85)), url('img/herobomberos.png'); background-size: cover; background-position: center; background-attachment: fixed;">
+        <div class="max-w-4xl mx-auto space-y-6 relative z-10 mt-8">
+            <span class="bg-red-600/80 backdrop-blur-sm border border-red-500 text-xs uppercase font-extrabold px-4 py-1.5 rounded-full tracking-widest shadow-md">
                 Honor, Abnegación y disciplina
             </span>
             <h1 class="text-4xl md:text-6xl font-black tracking-tight drop-shadow-lg">Cuerpo de Bomberos Voluntarios<br>de Cubarral Meta</h1>
-            <p class="text-lg md:text-xl text-slate-200 max-w-2xl mx-auto font-light drop-shadow">
+            <p class="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto font-light drop-shadow">
                 Protegiendo vidas, bienes y el patrimonio ambiental de nuestra comunidad las 24 horas del día.
             </p>
             
-            <!-- BOTÓN DE EMERGENCIA ANIMADO -->
-            <div class="pt-8 flex flex-col sm:flex-row justify-center gap-4 relative">
-                <!-- Capa de animación (pulso expansivo) -->
-                <div class="absolute inset-0 bg-amber-400 rounded-xl animate-ping opacity-20 max-w-[280px] mx-auto h-14"></div>
-                <!-- Botón real -->
-                <a href="tel:123" class="relative bg-gradient-to-r from-amber-500 to-amber-400 text-slate-900 font-black px-8 py-4 rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.5)] hover:shadow-[0_0_30px_rgba(245,158,11,0.8)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 flex items-center justify-center space-x-3 w-full sm:w-auto">
-                    <i class="fa-solid fa-phone-volume text-2xl animate-pulse"></i>
-                    <span class="text-lg">Línea de Emergencia</span>
+            <!-- BOTÓN DE EMERGENCIA (Elegante y Profesional) -->
+            <div class="pt-8 flex justify-center relative">
+                <a href="tel:3027270281" class="bg-gradient-to-b from-amber-400 to-amber-500 border border-amber-300 text-slate-900 font-black px-8 py-4 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-3 w-full sm:w-auto group">
+                    <div class="bg-slate-900 text-amber-400 rounded-full w-10 h-10 flex items-center justify-center group-hover:rotate-12 transition-transform">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div class="text-left">
+                        <span class="block text-xs uppercase tracking-wider font-bold opacity-80">Línea de Emergencia</span>
+                        <span class="block text-xl">302 727 0281</span>
+                    </div>
                 </a>
             </div>
         </div>
     </header>
 
-    <!-- ENLACE FLOTANTE WHATSAPP ANIMADO -->
-    <div class="fixed bottom-6 right-6 z-40 group">
-        <!-- Capa de pulso detrás del botón -->
-        <div class="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-40"></div>
-        <!-- Botón flotante que rebota suavemente -->
-        <a href="https://wa.me/573000000000" target="_blank" class="relative bg-green-500 text-white rounded-full shadow-2xl hover:bg-green-600 transition-all flex items-center justify-center text-3xl w-16 h-16 animate-bounce hover:animate-none hover:scale-110" title="Escríbenos por WhatsApp">
+    <!-- ENLACE FLOTANTE WHATSAPP (Discreto) -->
+    <div class="fixed bottom-6 right-6 z-40">
+        <a href="https://wa.me/573027270281" target="_blank" class="bg-green-500 text-white rounded-full shadow-lg hover:shadow-2xl hover:bg-green-600 transition-all flex items-center justify-center text-3xl w-14 h-14 hover:scale-110" title="Escríbenos por WhatsApp">
             <i class="fa-brands fa-whatsapp"></i>
         </a>
     </div>
@@ -78,7 +109,7 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-grow space-y-24">
 
         <!-- SECCIÓN 1: NOTICIAS -->
-        <section id="noticias" class="scroll-mt-24">
+        <section id="noticias" class="scroll-mt-28">
             <div class="mb-10 text-center sm:text-left">
                 <h2 class="text-3xl font-black tracking-tight text-slate-900 flex items-center justify-center sm:justify-start">
                     <i class="fa-solid fa-newspaper text-red-600 mr-3"></i>Comunicados Oficiales
@@ -92,8 +123,7 @@
         </section>
 
         <!-- SECCIÓN 2: NOSOTROS -->
-        <section id="nosotros" class="scroll-mt-24">
-            <!-- (Contenido de nosotros se mantiene igual) -->
+        <section id="nosotros" class="scroll-mt-28">
             <div class="grid md:grid-cols-2 gap-8">
                 <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
                     <div class="w-12 h-12 bg-red-50 text-red-600 rounded-xl flex items-center justify-center text-xl mb-6">
@@ -120,10 +150,10 @@
                 <h3 class="text-2xl md:text-3xl font-black mb-3 relative z-10">Sigue nuestra labor diaria</h3>
                 <p class="text-slate-400 mb-8 max-w-xl mx-auto relative z-10">Únete a nuestra comunidad digital para conocer de cerca el trabajo de nuestros bomberos voluntarios.</p>
                 <div class="flex justify-center space-x-6 relative z-10">
-                    <a href="https://www.facebook.com/tu-pagina-aqui" target="_blank" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-bold transition flex items-center space-x-2">
+                    <a href="https://www.facebook.com/share/19HRPQMaZ5/" target="_blank" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-bold transition flex items-center space-x-2">
                         <i class="fa-brands fa-facebook text-xl"></i><span>Facebook</span>
                     </a>
-                    <a href="https://www.instagram.com/tu-pagina-aqui" target="_blank" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white px-6 py-3 rounded-xl font-bold transition flex items-center space-x-2">
+                    <a href="https://www.instagram.com/bomberoscubarral" target="_blank" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white px-6 py-3 rounded-xl font-bold transition flex items-center space-x-2">
                         <i class="fa-brands fa-instagram text-xl"></i><span>Instagram</span>
                     </a>
                 </div>
@@ -131,7 +161,7 @@
         </section>
 
         <!-- SECCIÓN 3: CERTIFICADOS -->
-        <section id="certificados" class="scroll-mt-24">
+        <section id="certificados" class="scroll-mt-28">
             <div class="mb-10 text-center">
                 <h2 class="text-3xl font-black tracking-tight text-slate-900"><i class="fa-solid fa-file-shield text-green-600 mr-2"></i>Gestión de Certificados de Seguridad</h2>
                 <p class="text-slate-500 mt-2 font-medium">Verifique un certificado existente o solicite una nueva inspección técnica.</p>
@@ -158,9 +188,9 @@
                         <i class="fa-solid fa-clipboard-list"></i>
                     </div>
                     <h3 class="text-xl font-bold text-slate-800 mb-2">¿Local nuevo o certificado vencido?</h3>
-                    <p class="text-sm text-slate-500 mb-8 max-w-sm mx-auto">Solicite la inspección técnica ocular de manera formal llenando el siguiente formulario.</p>
+                    <p class="text-sm text-slate-500 mb-8 max-w-sm mx-auto">Solicite la inspección técnica ocular de manera formal llenando el formulario unificado.</p>
                     
-                    <!-- Botón que abre el Modal -->
+                    <!-- Botón que abre el Modal Único -->
                     <button onclick="abrirModalSolicitud()" class="bg-red-600 text-white font-bold px-6 py-3 rounded-xl shadow-md hover:bg-red-700 transition hover:-translate-y-1 hover:shadow-lg flex items-center justify-center space-x-2 mx-auto w-full sm:w-auto">
                         <i class="fa-solid fa-calendar-check"></i>
                         <span>Solicitar Inspección Ahora</span>
@@ -171,10 +201,9 @@
 
     </main>
 
-    <!-- VENTANA EMERGENTE (MODAL) DEL FORMULARIO DE INSPECCIÓN -->
+    <!-- VENTANA EMERGENTE (MODAL UNIFICADO) DEL FORMULARIO DE INSPECCIÓN -->
     <div id="modal-solicitud" class="fixed inset-0 bg-slate-900/80 z-50 hidden flex items-center justify-center px-4 backdrop-blur-sm transition-opacity">
         <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 md:p-8 relative">
-            <!-- Botón Cerrar -->
             <button onclick="cerrarModalSolicitud()" class="absolute top-4 right-4 text-slate-400 hover:text-red-600 text-xl transition">
                 <i class="fa-solid fa-xmark"></i>
             </button>
@@ -219,28 +248,35 @@
         </div>
     </div>
 
-    <!-- PIE DE PÁGINA -->
-    <footer class="bg-white text-slate-600 text-sm py-12 border-t border-slate-200 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-8 items-center">
-            <div class="space-y-4 text-center md:text-left flex flex-col items-center md:items-start">
-                <img src="img/bomberoscubarral.png" alt="Bomberos Cubarral" class="h-14 sm:h-16 w-auto opacity-90">
-                <p class="font-bold text-slate-800 uppercase tracking-widest text-xs">Honor, Abnegación y disciplina</p>
-            </div>
-            <div class="space-y-3 text-center md:text-left">
-                <h4 class="text-slate-900 font-black text-base">Contacto Oficial</h4>
-                <p class="font-medium"><i class="fa-solid fa-location-dot text-red-600 mr-2 w-4"></i>San Luís de Cubarral, Meta</p>
-                <p class="font-medium"><i class="fa-solid fa-envelope text-red-600 mr-2 w-4"></i>bomberoscubarral@gmail.com</p>
-                <p class="font-medium"><i class="fa-solid fa-phone text-red-600 mr-2 w-4"></i>Línea: (123) 456-7890</p>
-            </div>
-            <div class="space-y-4 text-center md:text-right">
-                <h4 class="text-slate-900 font-black text-base">Nuestras Redes</h4>
-                <div class="flex justify-center md:justify-end space-x-5 text-2xl">
-                    <a href="https://www.facebook.com/tu-pagina-aqui" target="_blank" class="text-slate-400 hover:text-blue-600 transition"><i class="fa-brands fa-facebook"></i></a>
-                    <a href="https://www.instagram.com/tu-pagina-aqui" target="_blank" class="text-slate-400 hover:text-pink-600 transition"><i class="fa-brands fa-instagram"></i></a>
+    <!-- PIE DE PÁGINA REORGANIZADO CON MAPA -->
+    <footer class="bg-slate-900 text-slate-300 py-12 mt-auto border-t-4 border-red-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-3 gap-10 items-start">
+            
+            <!-- Columna 1: Logo, Lema y Contacto -->
+            <div class="space-y-6">
+                <img src="img/bomberoscubarral.png" alt="Bomberos Cubarral" class="h-auto w-64 max-w-full">
+                <p class="font-bold text-white uppercase tracking-widest text-xs">Honor, Abnegación y disciplina</p>
+                <div class="space-y-2 text-sm mt-4">
+                    <p class="flex items-center"><i class="fa-solid fa-location-dot text-red-500 w-6"></i> San Luís de Cubarral, Meta</p>
+                    <p class="flex items-center"><i class="fa-solid fa-envelope text-red-500 w-6"></i> bomberoscubarraladm@gmail.com</p>
+                    <p class="flex items-center"><i class="fa-solid fa-phone text-red-500 w-6"></i> Línea de emergencia: 302 727 0281</p>
+                </div>
+                <div class="flex space-x-4 pt-2 text-xl">
+                    <a href="https://www.facebook.com/share/19HRPQMaZ5/" target="_blank" class="text-slate-400 hover:text-blue-500 transition"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/bomberoscubarral" target="_blank" class="text-slate-400 hover:text-pink-500 transition"><i class="fa-brands fa-instagram"></i></a>
                 </div>
             </div>
+
+            <!-- Columna 2 y 3: Google Maps -->
+            <div class="lg:col-span-2 w-full h-full min-h-[320px] rounded-2xl shadow-lg overflow-hidden bg-slate-800 relative">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.076132073506!2d-73.84062709832803!3d3.7935907616498117!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3e1305aaf9fcd9%3A0x25bd18652edca683!2sCuerpo%20de%20Bomberos%20Voluntarios!5e0!3m2!1ses-419!2sco!4v1781235332701!5m2!1ses-419!2sco" width="100%" height="100%" style="border:0;"
+                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+
         </div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 mt-8 border-t border-slate-100 text-center text-xs text-slate-400 font-medium">
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 mt-10 border-t border-slate-800 text-center text-xs text-slate-500 font-medium">
             &copy; 2026 Cuerpo de Bomberos Voluntarios de Cubarral Meta. Todos los derechos reservados.
         </div>
     </footer>
@@ -248,38 +284,60 @@
     <!-- LLAMADO AL SCRIPT LÓGICO DE FIREBASE -->
     <script type="module" src="js/app.js"></script>
 
-    <!-- SCRIPT PARA EL FORMULARIO DE WHATSAPP -->
     <script>
-        // Funciones para abrir y cerrar la ventana emergente
-        function abrirModalSolicitud() {
+        // 1. Lógica del Menú Móvil
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnMenuMovil = document.getElementById("btn-menu-movil");
+            const menuMovil = document.getElementById("menu-movil");
+
+            if (btnMenuMovil && menuMovil) {
+                btnMenuMovil.addEventListener("click", () => {
+                    menuMovil.classList.toggle("hidden");
+                });
+
+                // Cierra el menú al tocar un enlace
+                menuMovil.querySelectorAll("a").forEach(enlace => {
+                    enlace.addEventListener("click", () => {
+                        menuMovil.classList.add("hidden");
+                    });
+                });
+            }
+        });
+
+        // 2. Lógica de la Pantalla de Carga (Suave)
+        window.addEventListener('load', function() {
+            const splash = document.getElementById('splash-screen');
+            if (splash) {
+                setTimeout(() => {
+                    splash.style.opacity = '0'; // Efecto suave de Tailwind
+                    setTimeout(() => {
+                        splash.style.display = 'none'; // Se quita del HTML
+                    }, 1000); // Espera 1 seg a que termine el difuminado
+                }, 800); // Tiempo inicial mostrando el logo
+            }
+        });
+
+        // 3. Funciones del Modal de WhatsApp unificado
+        window.abrirModalSolicitud = function() {
             document.getElementById('modal-solicitud').classList.remove('hidden');
         }
 
-        function cerrarModalSolicitud() {
+        window.cerrarModalSolicitud = function() {
             document.getElementById('modal-solicitud').classList.add('hidden');
         }
 
-        // Lógica para enviar los datos a WhatsApp
         function enviarSolicitudWhatsApp(event) {
-            event.preventDefault(); // Evita que la página se recargue
-
-            // 1. Obtener los valores ingresados
+            event.preventDefault(); 
             const nombre = document.getElementById('req-nombre').value;
             const rep = document.getElementById('req-rep').value;
             const nit = document.getElementById('req-nit').value;
             const tel = document.getElementById('req-tel').value;
             const dir = document.getElementById('req-dir').value;
 
-            // 2. Construir el mensaje formateado (el %0A es un salto de línea en WhatsApp)
-            const textoMensaje = `*NUEVA SOLICITUD DE INSPECCIÓN TÉCNICA*%0A%0A*Establecimiento:* ${nombre}%0A*Representante Legal:* ${rep}%0A*NIT/Cédula:* ${nit}%0A*Teléfono:* ${tel}%0A*Dirección:* ${dir}%0A%0A_Por favor, indíquenme los pasos a seguir para agendar la visita. Quedo atento/a._`;
-
-            // 3. CAMBIA ESTE NÚMERO POR EL DE BOMBEROS (ejemplo: 573120000000)
-            const numeroBomberos = "573000000000";
-
-            // 4. Abrir WhatsApp
+            const textoMensaje = `*NUEVA SOLICITUD DE INSPECCIÓN TÉCNICA*%0A%0A*Establecimiento:* ${nombre}%0A*Representante Legal:* ${rep}%0A*NIT/Cédula:* ${nit}%0A*Teléfono:* ${tel}%0A*Dirección:* ${dir}%0A%0A_Por favor, indíquenme los pasos a seguir para agendar la visita._`;
+            const numeroBomberos = "573027270281";
             window.open(`https://wa.me/${numeroBomberos}?text=${textoMensaje}`, '_blank');
 
-            // 5. Cerrar el modal y limpiar el formulario
             document.getElementById('form-inspeccion').reset();
             cerrarModalSolicitud();
         }

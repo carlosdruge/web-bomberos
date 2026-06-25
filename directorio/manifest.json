@@ -1,0 +1,24 @@
+{
+  "name": "Directorio de Emergencias Cubarral",
+  "short_name": "Emergencias",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#7f0000",
+  "theme_color": "#b30000",
+  "orientation": "portrait",
+  "scope": "./",
+  "lang": "es",
+  "description": "Directorio digital de emergencias de Cubarral Meta.",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
