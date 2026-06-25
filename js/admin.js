@@ -112,10 +112,11 @@ if(btnGenerarQr) {
         // 1. Limpiamos cualquier QR que se haya generado antes
         codigoQr.innerHTML = "";
         
-        // 2. Construimos la URL que leerá el celular (apuntando a tu validador)
-        const enlaceVerificacion = `${window.location.origin}/verificar.html?nit=${nit}`;
+        // REEMPLAZO INTELIGENTE: Obtiene la ruta base actual (funciona en Local y GitHub Pages)
+        const rutaBase = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
+        const enlaceVerificacion = `${rutaBase}/verificar.html?nit=${nit}`;
         
-        // 3. Generamos la imagen del QR usando la librería
+        // 2. Generamos la imagen del QR usando la librería
         new QRCode(codigoQr, {
             text: enlaceVerificacion,
             width: 150,
@@ -125,7 +126,7 @@ if(btnGenerarQr) {
             correctLevel : QRCode.CorrectLevel.H
         });
 
-        // 4. Mostramos el cuadro en pantalla para que lo puedan copiar
+        // 3. Mostramos el cuadro en pantalla para que lo puedan copiar
         contenedorQrVisual.classList.remove("hidden");
         contenedorQrVisual.classList.add("flex");
     });
