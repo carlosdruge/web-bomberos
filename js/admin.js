@@ -27,15 +27,17 @@ const btnLogout = document.getElementById("btn-logout");
 // Elementos de Certificados
 const certNit = document.getElementById("cert-nit");
 const certNombre = document.getElementById("cert-nombre");
+const certDireccion = document.getElementById("direccion"); 
+const certRepresentante = document.getElementById("representante");
 const certExpedicion = document.getElementById("cert-expedicion");
 const certvencimiento = document.getElementById("cert-vencimiento");
 const btnGuardarCert = document.getElementById("btn-guardar-cert");
 
-// NUEVOS Elementos para el QR
+// Elementos para el QR
 const btnGenerarQr = document.getElementById("btn-generar-qr");
 const contenedorQrVisual = document.getElementById("contenedor-qr-visual");
 const codigoQr = document.getElementById("codigo-qr");
-const resultadoQrLink = document.getElementById("resultado-qr-link"); // Se mantiene por si acaso
+const resultadoQrLink = document.getElementById("resultado-qr-link"); 
 
 // Elementos de Noticias
 const notTitulo = document.getElementById("not-titulo");
@@ -139,8 +141,13 @@ btnGuardarCert.addEventListener("click", async () => {
     const expedicion = certExpedicion.value;
     const vencimiento = certvencimiento.value;
 
-    if (!nit || !nombre || !expedicion || !vencimiento) {
-        alert("Todos los campos del certificado son obligatorios para poder registrarlo.");
+    // La dirección es requerida, el representante es opcional (ponemos 'No registrado' por defecto)
+    const direccion = certDireccion.value.trim();
+    const representante = certRepresentante.value.trim() || "No registrado";
+    // -----------------------------------
+
+    if (!nit || !nombre || !direccion || !expedicion || !vencimiento) {
+        alert("Todos los campos obligatorios (incluyendo la dirección) deben ser llenados para registrarlo.");
         return;
     }
 
@@ -152,8 +159,11 @@ btnGuardarCert.addEventListener("click", async () => {
     try {
         await setDoc(doc(db, "certificados", nit), {
             nombre: nombre,
+            direccion: direccion,          
+            representante: representante,  
             expedicion: expedicion,
-            vencimiento: vencimiento
+            vencimiento: vencimiento,
+            fechaRegistro: new Date().toISOString() // Sello de seguridad 
         });
 
         alert("¡Registro Exitoso! El certificado ha sido activado en la base de datos.");
@@ -161,6 +171,8 @@ btnGuardarCert.addEventListener("click", async () => {
         // Limpiamos todo el formulario para el siguiente registro
         certNit.value = "";
         certNombre.value = "";
+        certDireccion.value = "";       // Limpiamos Dirección
+        certRepresentante.value = "";   // Limpiamos Representante
         certExpedicion.value = "";
         certvencimiento.value = "";
         

@@ -4,24 +4,24 @@
 // Copyright © 2026 Carlos Ruge
 // Todos los derechos reservados.
 
-const CACHE_NAME = "directorio-emergencias-v2.5";
+const CACHE_NAME = "directorio-emergencias-v2.6";
 
 const urlsToCache = [
   "./",
   "./index.html",
   "./manifest.json",
-  "./favicon.png",
+  "./favicon.webp",
   "./preview.jpg",
-  "./herocubarral.jpg",
-  "./logobomberos.png",
-  "./logopolicia.png",
-  "./logohospital.png",
-  "./logodefensacivil.png",
-  "./logobiter7.png",
-  "./logollanogas.png",
-  "./logoemsa.png",
-  "./icon-192.png",
-  "./icon-512.png",
+  "./herocubarral.webp",
+  "./logobomberos.webp",
+  "./logopolicia.webp",
+  "./logohospital.webp",
+  "./logodefensacivil.webp",
+  "./logobiter7.webp",
+  "./logollanogas.webp",
+  "./logoemsa.webp",
+  "./icon-192.webp",
+  "./icon-512.webp",
   "./qr-directorio.png",
   "./app.js"
 ];
